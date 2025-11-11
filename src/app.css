@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Nunito Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 1000;
+  src: url(/fonts/nunito-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Open Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url(/fonts/open-sans-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Nunito Fallback";
+  src: local("Arial");
+  size-adjust: 102%;
+  ascent-override: 68%;
+  descent-override: 0%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Open Sans Fallback";
+  src: local("Arial");
+  size-adjust: 104%;
+  ascent-override: 75%;
+  descent-override: 0%;
+  line-gap-override: 0%;
+}
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-desktop: 500px;
+
+  --color-*: initial;
+  --color-background: #fafafa;
+  --color-base: #ffffff;
+  --color-accent: #eeeeee;
+  --color-contrast: #000000;
+  --color-primary: #ff2f92;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-typography-attention: #000000;
+  --color-typography-subtle: #838383;
+  --color-typography-on-contrast: #ffffff;
+  --color-typography-on-primary: #ffffff;
+  --color-typography-danger: #de0000;
+
+  --radius-*: initial;
+  --radius-circle: 999px;
+  --radius-default: 20px;
+  --radius-inner: 15px;
+  --radius-inner-2: 13px;
+
+  --font-*: initial;
+  --font-base: "Open Sans Variable", "Open Sans Fallback", sans-serif;
+  --font-display: "Nunito Variable", "Nunito Variable Fallback";
+
+  --shadow-elevated: 0 0 25px 0 rgba(0, 0, 0, 0.15);
+
+  --animate-fade-slide-in: fade-slide-in 500ms ease-out forwards;
+  --animate-fade-in: fade-in 500ms ease-in forwards;
+  --animate-fade-out: fade-out 500ms ease-out forwards;
+
+  @keyframes fade-slide-in {
+    0% {
+      transform-origin: center;
+      opacity: 0;
+      transform: translateY(5px) scale(0.95);
+    }
+    100% {
+      transform-origin: center;
+      opacity: 1;
+      transform: translateY(0px) scale(1);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  --gift-box-animation-duration: 500ms;
+
+  --animate-left-ribbon: left-ribbon var(--gift-box-animation-duration) ease-out forwards;
+  --animate-right-ribbon: right-ribbon var(--gift-box-animation-duration) ease-out forwards;
+  --animate-left-ribbon-loop: left-ribbon-loop var(--gift-box-animation-duration) ease-out forwards;
+  --animate-right-ribbon-loop: right-ribbon-loop var(--gift-box-animation-duration) ease-out
+    forwards;
+  --animate-middle-ribbon: middle-ribbon var(--gift-box-animation-duration) ease-out forwards;
+  --animate-vertical-ribbon: vertical-ribbon var(--gift-box-animation-duration) ease-out forwards;
+  --animate-top-box: top-box var(--gift-box-animation-duration) ease-out forwards;
+  --animate-bottom-box: bottom-box var(--gift-box-animation-duration) ease-out forwards;
+
+  @keyframes left-ribbon {
+    0% {
+      transform-origin: right center;
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: right center;
+      transform: scaleX(1.25);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: right center;
+      transform: translateX(-25px) scaleX(0.75);
+      opacity: 0;
+    }
+  }
+
+  @keyframes right-ribbon {
+    0% {
+      transform-origin: left center;
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: left center;
+      transform: scaleX(1.25);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: left center;
+      transform: translateX(25px) scaleX(0.75);
+      opacity: 0;
+    }
+  }
+
+  @keyframes left-ribbon-loop {
+    0% {
+      transform-origin: left center;
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: left center;
+      transform: scaleX(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: left center;
+      transform: scaleX(0.75);
+      opacity: 0;
+    }
+  }
+
+  @keyframes right-ribbon-loop {
+    0% {
+      transform-origin: right center;
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: right center;
+      transform: scaleX(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: right center;
+      transform: scaleX(0.75);
+      opacity: 0;
+    }
+  }
+
+  @keyframes middle-ribbon {
+    0% {
+      transform-origin: center;
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: center;
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: center;
+      transform: scale(0.75);
+      opacity: 0;
+    }
+  }
+
+  @keyframes vertical-ribbon {
+    0% {
+      transform-origin: bottom;
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform-origin: bottom;
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform-origin: bottom;
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes top-box {
+    0% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes bottom-box {
+    0% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+  }
+}
+
+@utility transform-fill-box {
+  transform-box: fill-box;
+}
