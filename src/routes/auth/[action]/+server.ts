@@ -6,7 +6,7 @@ export const GET: RequestHandler = async ({ params, url, cookies }) => {
 
   if (action === "login") {
     const callbackUrl = `${url.origin}/api/auth/callback`;
-    const loginTarget = `${env.PUBLIC_KEYCLOAK_URL}/realms/${env.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/auth?client_id=${env.PUBLIC_KEYCLOAK_CLIENT_ID}&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&scope=openid%20profile%20email`;
+    const loginTarget = `${env.PUBLIC_KEYCLOAK_EXTERNAL_URL}/realms/${env.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/auth?client_id=${env.PUBLIC_KEYCLOAK_CLIENT_ID}&redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&scope=openid%20profile%20email`;
     throw redirect(302, loginTarget);
   }
 
@@ -18,7 +18,7 @@ export const GET: RequestHandler = async ({ params, url, cookies }) => {
     cookies.delete("id_token", { path: "/" });
 
     const logoutTarget = new URL(
-      `${env.PUBLIC_KEYCLOAK_URL}/realms/${env.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/logout`
+      `${env.PUBLIC_KEYCLOAK_EXTERNAL_URL}/realms/${env.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/logout`
     );
 
     logoutTarget.searchParams.set("client_id", env.PUBLIC_KEYCLOAK_CLIENT_ID);

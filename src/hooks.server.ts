@@ -38,7 +38,7 @@ const authHandle: Handle = async ({ event, resolve }) => {
       try {
         const keycloakSecret = env.KEYCLOAK_CLIENT_SECRET;
 
-        const tokenEndpoint = `${publicEnv.PUBLIC_KEYCLOAK_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`;
+        const tokenEndpoint = `${publicEnv.PUBLIC_KEYCLOAK_INTERNAL_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`;
 
         const response = await fetch(tokenEndpoint, {
           method: "POST",

@@ -11,7 +11,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
   const keycloakSecret = env.KEYCLOAK_CLIENT_SECRET;
 
   const response = await fetch(
-    `${publicEnv.PUBLIC_KEYCLOAK_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`,
+    `${publicEnv.PUBLIC_KEYCLOAK_INTERNAL_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`,
     {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },

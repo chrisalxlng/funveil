@@ -58,7 +58,8 @@ Set the required environment variables, for example:
 ```bash
 ORIGIN=https://funveil.example.com
 PUBLIC_KEYCLOAK_REALM=example-realm
-PUBLIC_KEYCLOAK_URL=https://auth.example.com
+PUBLIC_KEYCLOAK_EXTERNAL_URL=https://auth.example.com
+PUBLIC_KEYCLOAK_INTERNAL_URL=http://keycloak:8080
 PUBLIC_STASH_URL=https://stash.example.com
 PUBLIC_KEYCLOAK_CLIENT_ID=funveil-app
 DATABASE_URL=postgres://funveil:funveil@localhost:5433/funveil
