@@ -16,7 +16,7 @@
     ActionButton
   } from "$lib";
   import QRCode from "qrcode";
-  import { goto, invalidateAll } from "$app/navigation";
+  import { goto, invalidate, invalidateAll } from "$app/navigation";
   import { page } from "$app/state";
   import { type Component } from "svelte";
   import type { PageProps } from "../gifts/$types";
@@ -227,6 +227,10 @@
     giftModal.close();
     notification.show(m.notification_gift_wrapped(), "success");
   };
+
+  const handleCountdownFinish = () => {
+    invalidate("gifts:status");
+  };
 </script>
 
 {#snippet giftStatus(Icon: Component, label: string)}
@@ -276,7 +280,7 @@
             {:else if !isFuture(gift.releasedAt)}
               {@render giftStatus(IconGift, m.gift_status_unopened())}
             {:else}
-              <Countdown value={gift.releasedAt} compact />
+              <Countdown value={gift.releasedAt} compact onfinish={handleCountdownFinish} />
             {/if}
             <div class="flex flex-col items-start gap-2">
               <span class="font-display font-bold text-lg/6 text-typography-attention text-start"

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCountdown } from "$lib/utils";
+  import { getCountdown, getSeconds } from "$lib/utils";
   import { onMount } from "svelte";
   import DataPoint from "./DataPoint.svelte";
   import { m } from "$lib/paraglide/messages";
@@ -7,6 +7,7 @@
   type Props = {
     value: string;
     compact?: boolean;
+    onfinish?: () => void;
   };
   let props: Props = $props();
   let countdown = $state(getCountdown(props.value));
@@ -14,6 +15,10 @@
   onMount(() => {
     const interval = setInterval(() => {
       countdown = getCountdown(props.value);
+
+      if (getSeconds(countdown) === 0) {
+        props.onfinish?.();
+      }
     }, 1000);
 
     return () => clearInterval(interval);

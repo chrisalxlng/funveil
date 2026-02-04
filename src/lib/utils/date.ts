@@ -1,3 +1,10 @@
+type Countdown = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
 export const getLocalDateTime = (): string => {
   const d = new Date();
   const pad = (n: number): string => String(n).padStart(2, "0");
@@ -14,7 +21,7 @@ export const getLocalDateTime = (): string => {
 export const formatDate = (date: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(date));
 
-export const getCountdown = (targetDate: string) => {
+export const getCountdown = (targetDate: string): Countdown => {
   const now = new Date().getTime();
   const target = new Date(targetDate).getTime();
 
@@ -59,3 +66,6 @@ export const toDateTimeInputString = (isoDate: string | undefined): string => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
+
+export const getSeconds = ({ days, hours, minutes, seconds }: Countdown) =>
+  days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;

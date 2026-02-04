@@ -13,7 +13,9 @@ import { eq, and, isNull, isNotNull, count, asc } from "drizzle-orm";
 import z from "zod";
 import { GIFT_ID_SCHEMA } from "$lib/entities/Gift/constants";
 
-export const load = async ({ url, locals }) => {
+export const load = async ({ url, locals, depends }) => {
+  depends("gifts:status");
+
   if (!locals.user) {
     throw redirect(302, "/auth/login");
   }
