@@ -117,6 +117,11 @@
       handleClose?.();
     };
   };
+
+  const focusOnMount = (node: HTMLInputElement, autofocus: boolean) => {
+    if (!autofocus) return;
+    setTimeout(() => node.focus(), 50);
+  };
 </script>
 
 {#snippet actions()}
@@ -156,6 +161,7 @@
       {type}
       {placeholder}
       {value}
+      use:focusOnMount={autofocus ?? false}
     />
   </div>
 {/snippet}
