@@ -60,11 +60,6 @@ export const actions = {
     const gift = result.at(0);
     if (isNil(gift)) return fail(404, { message: "Gift not found" });
 
-    const releasedAtIso = gift.releasedAt.toISOString();
-    if (isFuture(releasedAtIso)) {
-      return fail(403, { message: "Gift is still locked" });
-    }
-
     const token = createFileAccessToken(gift.ownerUserId, gift.fileId);
     return { fileAccessToken: token };
   }
