@@ -43,7 +43,9 @@
   import { m } from "$lib/paraglide/messages";
 
   const giftModal = useModal<Gift.FormValues>(GIFT_MODAL_ID);
-  const deleteGiftConfirmModal = useModal(DELETE_GIFT_CONFIRM_MODAL_ID);
+  const deleteGiftConfirmModal = useModal<Gift.QueryResponse>(DELETE_GIFT_CONFIRM_MODAL_ID);
+
+  deleteGiftConfirmModal.data;
 
   const status = $derived(
     (page.url.searchParams.get(STATUS_QUERY_PARAM_KEY) as TabItemStatus) ?? "pending"
@@ -155,7 +157,10 @@
     window.open(url, "_blank", "noreferrer,noopener");
   };
 
-  const handleDelete = async ({ giftId, fileId }: Gift.QueryResponse) => {
+  const handleDelete = async (gift: Gift.QueryResponse | undefined) => {
+    if (isNil(gift)) throw new Error("Gift not found");
+    const { giftId, fileId } = gift;
+
     deleteGiftConfirmModal.close();
 
     try {
@@ -298,15 +303,8 @@
             onlinkcopy={() => handleLinkCopy(gift)}
             onpreviewopen={() => handlePreviewOpen(gift)}
             onedit={() => handleEdit(gift)}
-            ondelete={() => setTimeout(() => deleteGiftConfirmModal.open())}
+            ondelete={() => setTimeout(() => deleteGiftConfirmModal.open(gift))}
             onmarkunopened={() => handleMarkUnopened(gift)}
-          />
-          <ConfirmModal
-            id={DELETE_GIFT_CONFIRM_MODAL_ID}
-            Icon={IconDelete}
-            label={m.action_delete_gift()}
-            message={m.confirm_message_delete_gift()}
-            onconfirm={() => handleDelete(gift)}
           />
         </div>
       {/each}
@@ -339,3 +337,10 @@
 </div>
 <FloatingActionButton Icon={IconAdd} label={m.action_add_gift()} action={handleAdd} />
 <GiftModal data={giftModal.data} onsubmit={handleModalSubmit} />
+<ConfirmModal
+  id={DELETE_GIFT_CONFIRM_MODAL_ID}
+  Icon={IconDelete}
+  label={m.action_delete_gift()}
+  message={m.confirm_message_delete_gift()}
+  onconfirm={() => handleDelete(deleteGiftConfirmModal.data)}
+/>
