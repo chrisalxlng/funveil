@@ -59,5 +59,7 @@
   "title_gift_viewer": "Geschenk von {ownerUserName}",
   "action_previous": "Zurück",
   "action_next": "Weiter",
-  "page_current_of_total": "Seite {currentPage} von {totalPages}"
+  "page_current_of_total": "Seite {currentPage} von {totalPages}",
+  "error_file_too_large": "Datei überschreitet die Maximalgröße von {size}",
+  "error_default_file": "Dateiauswahl fehlgeschlagen"
 }

@@ -3,10 +3,17 @@ import { isMobileDevice } from "./device";
 type FilePickerOptions = {
   multiple?: boolean;
   accept?: string[];
+  maxSize?: number;
 };
 
+export class FilePickerError extends Error {
+  constructor(public code: "FILE_TOO_LARGE") {
+    super(code);
+  }
+}
+
 export const openFilePickerAsync = (options: FilePickerOptions = {}): Promise<FileList | null> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const input = document.createElement("input");
     input.type = "file";
     input.style.visibility = "hidden";
@@ -19,17 +26,33 @@ export const openFilePickerAsync = (options: FilePickerOptions = {}): Promise<Fi
     const cleanup = () => {
       input.remove();
       input.removeEventListener("change", onChange);
-      input.removeEventListener("cancel", cleanup);
+      input.removeEventListener("cancel", onCancel);
+    };
+
+    const onCancel = () => {
+      cleanup();
+      resolve(null);
     };
 
     const onChange = () => {
-      const files = input.files?.length ? input.files : null;
+      const files = input.files;
+
+      if (files && options.maxSize) {
+        for (const file of Array.from(files)) {
+          if (file.size > options.maxSize) {
+            cleanup();
+            reject(new FilePickerError("FILE_TOO_LARGE"));
+            return;
+          }
+        }
+      }
+
       cleanup();
-      resolve(files);
+      resolve(files?.length ? files : null);
     };
 
     input.addEventListener("change", onChange);
-    input.addEventListener("cancel", cleanup);
+    input.addEventListener("cancel", onCancel);
 
     input.value = "";
     input.click();

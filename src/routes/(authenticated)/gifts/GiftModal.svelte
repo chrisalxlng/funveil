@@ -7,7 +7,8 @@
     toDateTimeInputString,
     notification,
     IconButton,
-    openFilePickerAsync
+    openFilePickerAsync,
+    FilePickerError
   } from "$lib";
   import { isEmpty, isNil } from "lodash-es";
   import IconBowknot from "~icons/mingcute/bowknot-line";
@@ -24,6 +25,7 @@
   import { env } from "$env/dynamic/public";
   import { GIFT_MODAL_ID } from "./definitions";
   import { m } from "$lib/paraglide/messages";
+  import { MAX_FILE_SIZE } from "$lib/constants";
 
   type Props = {
     data: Gift.FormValues | undefined;
@@ -35,18 +37,29 @@
   const auth = useAuth();
 
   const handleFileReplace = async () => {
-    const files = await openFilePickerAsync({ accept: [".jpg", ".png", ".jpeg"] });
+    try {
+      const files = await openFilePickerAsync({
+        accept: [".jpg", ".png", ".jpeg"],
+        maxSize: MAX_FILE_SIZE
+      });
 
-    if (!isNil(files) && !isEmpty(files) && props.data) {
-      const [firstFile] = files;
+      if (!isNil(files) && !isEmpty(files) && props.data) {
+        const [firstFile] = files;
 
-      if (props.data.fileUrl.startsWith("blob:")) {
-        URL.revokeObjectURL(props.data.fileUrl);
+        if (props.data.fileUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(props.data.fileUrl);
+        }
+
+        props.data.fileUrl = URL.createObjectURL(firstFile);
+        props.data.fileName = firstFile.name;
+        props.data.isFileUploaded = false;
       }
-
-      props.data.fileUrl = URL.createObjectURL(firstFile);
-      props.data.fileName = firstFile.name;
-      props.data.isFileUploaded = false;
+    } catch (error) {
+      if (error instanceof FilePickerError && error.code === "FILE_TOO_LARGE") {
+        notification.show(m.error_file_too_large({ size: "10MB" }), "error");
+      } else {
+        notification.show(m.error_default_file(), "error");
+      }
     }
   };
 

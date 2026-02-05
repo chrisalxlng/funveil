@@ -13,7 +13,8 @@
     saveFile,
     notification,
     useAuth,
-    ActionButton
+    ActionButton,
+    FilePickerError
   } from "$lib";
   import QRCode from "qrcode";
   import { goto, invalidate, invalidateAll } from "$app/navigation";
@@ -41,6 +42,7 @@
   import { v4 as uuid } from "uuid";
   import { applyAction, deserialize } from "$app/forms";
   import { m } from "$lib/paraglide/messages";
+  import { MAX_FILE_SIZE } from "$lib/constants";
 
   const giftModal = useModal<Gift.FormValues>(GIFT_MODAL_ID);
   const deleteGiftConfirmModal = useModal<Gift.QueryResponse>(DELETE_GIFT_CONFIRM_MODAL_ID);
@@ -72,23 +74,34 @@
   const buildGiftUrl = (giftId: string) => `${window.location.origin}/gift/${giftId}`;
 
   const handleAdd = async () => {
-    const files = await openFilePickerAsync({ accept: [".jpg", ".png", ".jpeg"] });
-    if (!isNil(files) && !isEmpty(files)) {
-      const [firstFile] = files;
-      const fileUrl = URL.createObjectURL(firstFile);
-      const fileName = firstFile.name;
-      const giftId = uuid();
-      const fileId = uuid();
+    try {
+      const files = await openFilePickerAsync({
+        accept: [".jpg", ".png", ".jpeg"],
+        maxSize: MAX_FILE_SIZE
+      });
+      if (!isNil(files) && !isEmpty(files)) {
+        const [firstFile] = files;
+        const fileUrl = URL.createObjectURL(firstFile);
+        const fileName = firstFile.name;
+        const giftId = uuid();
+        const fileId = uuid();
 
-      giftModal.open(
-        Gift.getFormValues({
-          giftId,
-          fileUrl,
-          fileName,
-          fileId,
-          releasedAt: getLocalDateTime()
-        })
-      );
+        giftModal.open(
+          Gift.getFormValues({
+            giftId,
+            fileUrl,
+            fileName,
+            fileId,
+            releasedAt: getLocalDateTime()
+          })
+        );
+      }
+    } catch (error) {
+      if (error instanceof FilePickerError && error.code === "FILE_TOO_LARGE") {
+        notification.show(m.error_file_too_large({ size: "10MB" }), "error");
+      } else {
+        notification.show(m.error_default_file(), "error");
+      }
     }
   };
 
