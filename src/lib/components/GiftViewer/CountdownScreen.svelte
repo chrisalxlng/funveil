@@ -9,7 +9,7 @@
 </script>
 
 <div class="flex flex-col items-center gap-16">
-  <span class="font-display text-typography-attention text-4xl font-bold">
+  <span class="font-display text-typography-attention text-3xl desktop:text-4xl font-bold">
     {m.countdown_heading_prefix()}<span class="text-primary">{gift.ownerUserName}</span
     >{m.countdown_heading_suffix()}
   </span>

@@ -26,7 +26,7 @@
 </script>
 
 {#if !props.compact}
-  <div class="flex gap-10 items-center">
+  <div class="flex gap-5 items-center">
     <DataPoint label={m.countdown_days()} value={countdown.days} />
     <DataPoint label={m.countdown_hours()} value={countdown.hours} />
     <DataPoint label={m.countdown_minutes()} value={countdown.minutes} />

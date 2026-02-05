@@ -69,7 +69,7 @@
 </svelte:head>
 
 <div
-  class="relative w-full h-full pt-12 desktop:pt-0 desktop:flex justify-center items-center text-center *:max-w-2xl *:p-6"
+  class="relative w-full h-full pt-8 desktop:pt-0 desktop:flex justify-center items-center text-center *:max-w-2xl *:p-6"
 >
   {#if !props.revealed}
     <CountdownScreen gift={props.gift} />
