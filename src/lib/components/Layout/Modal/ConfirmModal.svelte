@@ -18,7 +18,13 @@
 {/snippet}
 
 {#snippet actions()}
-  <ActionButton variant="danger" Icon={props.Icon} label={props.label} action={props.onconfirm} />
+  <ActionButton
+    class="flex-1 desktop:flex-none"
+    variant="danger"
+    Icon={props.Icon}
+    label={props.label}
+    action={props.onconfirm}
+  />
 {/snippet}
 
 <Modal id={props.id} title={props.label} {content} {actions} />
