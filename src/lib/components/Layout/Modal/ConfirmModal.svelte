@@ -14,7 +14,7 @@
 </script>
 
 {#snippet content()}
-  <span class="font-base text-sm text-typography-attention">{props.message}</span>
+  <span class="font-base text-sm text-typography-subtle">{props.message}</span>
 {/snippet}
 
 {#snippet actions()}
