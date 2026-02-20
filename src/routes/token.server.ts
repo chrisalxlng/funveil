@@ -13,7 +13,7 @@ export const createFileAccessToken = (ownerUserId: string, fileId: string): stri
     fileId
   };
 
-  return jwt.sign(payload, secret, {
+  return jwt.sign(payload, secret!, {
     expiresIn: TTL_SECONDS
   });
 };

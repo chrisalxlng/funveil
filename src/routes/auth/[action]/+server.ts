@@ -22,7 +22,7 @@ export const GET: RequestHandler = async ({ params, url, cookies }) => {
       `${publicEnv.PUBLIC_KEYCLOAK_EXTERNAL_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/logout`
     );
 
-    logoutTarget.searchParams.set("client_id", publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID);
+    logoutTarget.searchParams.set("client_id", publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID!);
     logoutTarget.searchParams.set("post_logout_redirect_uri", url.origin);
 
     if (idTokenHint) {
@@ -40,10 +40,10 @@ export const GET: RequestHandler = async ({ params, url, cookies }) => {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
           grant_type: "password",
-          username: publicEnv.PUBLIC_KEYCLOAK_DEMO_USER_EMAIL,
-          password: env.KEYCLOAK_DEMO_USER_PASSWORD,
-          client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID,
-          client_secret: env.KEYCLOAK_CLIENT_SECRET,
+          username: publicEnv.PUBLIC_KEYCLOAK_DEMO_USER_EMAIL!,
+          password: env.KEYCLOAK_DEMO_USER_PASSWORD!,
+          client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID!,
+          client_secret: env.KEYCLOAK_CLIENT_SECRET!,
           scope: "openid profile email"
         })
       }
