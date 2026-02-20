@@ -62,9 +62,13 @@ PUBLIC_KEYCLOAK_EXTERNAL_URL=https://auth.example.com
 PUBLIC_KEYCLOAK_INTERNAL_URL=http://keycloak:8080
 PUBLIC_STASH_URL=https://stash.example.com
 PUBLIC_KEYCLOAK_CLIENT_ID=funveil-app
+PUBLIC_KEYCLOAK_DEMO_USER_EMAIL=demo@example.com
+PUBLIC_GIFT_LIMIT=50
+PUBLIC_DEMO_GIFT_LIMIT=15
 DATABASE_URL=postgres://funveil:funveil@localhost:5433/funveil
 KEYCLOAK_CLIENT_SECRET=this-is-a-secret
-STASH_FILE_ACCESS_SECRET=a-string-secret-at-least-256-bits-long
+STASH_FILE_ACCESS_SECRET=secret
+KEYCLOAK_DEMO_USER_PASSWORD=demo-password
 ```
 
 Then build and run the app using the provided [Dockerfile](./Dockerfile).
