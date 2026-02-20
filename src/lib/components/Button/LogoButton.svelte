@@ -8,4 +8,4 @@
   const buttonType = type ?? "scale";
 </script>
 
-<Button label="Logo" type={buttonType} {...props}><Logo /></Button>
+<Button label="Logo" type={buttonType} action="/" {...props}><Logo /></Button>
