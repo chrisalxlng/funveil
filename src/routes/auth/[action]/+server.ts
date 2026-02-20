@@ -34,7 +34,7 @@ export const GET: RequestHandler = async ({ params, url, cookies }) => {
 
   if (action === "demo") {
     const response = await fetch(
-      `${publicEnv.PUBLIC_KEYCLOAK_INTERNAL_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      `${publicEnv.PUBLIC_KEYCLOAK_EXTERNAL_URL}/realms/${publicEnv.PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/token`,
       {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
