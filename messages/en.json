@@ -61,5 +61,18 @@
   "action_next": "Next",
   "page_current_of_total": "Page {currentPage} of {totalPages}",
   "error_file_too_large": "File exceeds maximum size of {size}",
-  "error_default_file": "File selection failed"
+  "error_default_file": "File selection failed",
+  "title_landing": "Digital gifts • Funveil",
+  "landing_heading_high_emphasis": "Digital gifts.",
+  "landing_heading_low_emphasis": "Created in seconds.",
+  "landing_subheading": "Upload an image, pick a time, share via link or QR code. Done.",
+  "action_start_demo": "Try a demo",
+  "action_sign_in": "Sign in",
+  "demo": "Demo",
+  "demo_info_heading": "Demo Account Information",
+  "demo_info_item_1": "This account is publicly accessible. All uploaded content can be viewed by other users.",
+  "demo_info_item_2": "Data is automatically reset every 24 hours.",
+  "demo_info_item_3": "A maximum of 15 gifts can be uploaded.",
+  "notification_gift_file_size_exceeded": "Maximum gift file size exceeded",
+  "notification_gift_file_limit_exceeded": "Maximum number of gifts exceeded"
 }

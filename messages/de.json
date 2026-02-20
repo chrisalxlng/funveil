@@ -61,5 +61,18 @@
   "action_next": "Weiter",
   "page_current_of_total": "Seite {currentPage} von {totalPages}",
   "error_file_too_large": "Datei überschreitet die Maximalgröße von {size}",
-  "error_default_file": "Dateiauswahl fehlgeschlagen"
+  "error_default_file": "Dateiauswahl fehlgeschlagen",
+  "title_landing": "Digitale Geschenke • Funveil",
+  "landing_heading_high_emphasis": "Digitale Geschenke.",
+  "landing_heading_low_emphasis": "In Sekunden erstellt.",
+  "landing_subheading": "Bild hochladen, Zeitpunkt wählen, Link oder QR-Code teilen. Fertig.",
+  "action_start_demo": "Demo ausprobieren",
+  "action_sign_in": "Anmelden",
+  "demo": "Demo",
+  "demo_info_heading": "Hinweise zum Demo-Konto",
+  "demo_info_item_1": "Dieses Konto ist öffentlich zugänglich. Alle hochgeladenen Inhalte können von anderen Nutzern eingesehen werden.",
+  "demo_info_item_2": "Daten werden automatisch alle 24 Stunden zurückgesetzt.",
+  "demo_info_item_3": "Es können maximal 15 Geschenke hochgeladen werden.",
+  "notification_gift_file_size_exceeded": "Maximale Dateigröße des Geschenks überschritten",
+  "notification_gift_file_limit_exceeded": "Maximale Anzahl von Geschenken überschritten"
 }

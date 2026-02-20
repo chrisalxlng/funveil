@@ -15,7 +15,7 @@
   setMenuContext({ id });
 </script>
 
-<Popover {id} element="menu" class="rounded-t-default desktop:rounded-default">
+<Popover {id} element="menu">
   <div class="flex flex-col gap-6">
     <IconButton
       Icon={IconClose}

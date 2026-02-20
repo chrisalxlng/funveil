@@ -6,6 +6,7 @@ export { default as LogoButton } from "./Button/LogoButton.svelte";
 
 export { default as ConfirmModal } from "./Layout/Modal/ConfirmModal.svelte";
 export { default as List } from "./Layout/List.svelte";
+export { default as Popover } from "./Layout/Popover/Popover.svelte";
 export { default as Menu } from "./Layout/Menu/Menu.svelte";
 export { default as MenuGroup } from "./Layout/Menu/MenuGroup.svelte";
 export { default as MenuItem } from "./Layout/Menu/MenuItem.svelte";

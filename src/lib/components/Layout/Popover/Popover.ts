@@ -5,6 +5,7 @@ export const positionPopover = (node: HTMLElement) => {
     return { destroy() {} };
   }
 
+  const PADDING = 8;
   const SMALL_SCREEN_QUERY = "(min-width: 500px)";
   const mediaQuery = window.matchMedia(SMALL_SCREEN_QUERY);
 
@@ -16,65 +17,49 @@ export const positionPopover = (node: HTMLElement) => {
 
     node.style.visibility = "hidden";
 
-    const PADDING = 8;
     node.style.top = "";
     node.style.left = "";
     node.style.right = "";
     node.style.bottom = "";
+    node.style.width = "";
     node.style.position = "";
 
     const isDesktop = mediaQuery.matches;
-    let top = 0;
-    let left = 0;
-    let width = "";
+    const trigger = findTrigger();
 
-    if (isDesktop) {
-      const trigger = findTrigger();
-      if (!trigger) return;
-
-      width = "fit-content";
+    if (isDesktop && trigger) {
       node.style.position = "absolute";
-      node.style.width = width;
+      node.style.width = "fit-content";
 
       const menuRect = node.getBoundingClientRect();
       const buttonRect = trigger.getBoundingClientRect();
 
-      const fits = (top: number, left: number) => {
-        return (
-          top >= PADDING &&
-          left >= PADDING &&
-          top + menuRect.height <= window.innerHeight - PADDING &&
-          left + menuRect.width <= window.innerWidth - PADDING
-        );
-      };
+      let left = buttonRect.left;
 
-      top = buttonRect.top - menuRect.height - PADDING;
-      left = buttonRect.left;
+      if (left + menuRect.width > window.innerWidth - PADDING) {
+        left = window.innerWidth - menuRect.width - PADDING;
+      }
 
-      if (!fits(top, left)) {
+      left = Math.max(PADDING, left);
+
+      let top = buttonRect.top - menuRect.height - PADDING;
+
+      if (top < PADDING) {
         top = buttonRect.bottom + PADDING;
-        left = buttonRect.left;
+      }
 
-        if (!fits(top, left)) {
-          top = buttonRect.top;
-          left = buttonRect.right + PADDING;
-        }
+      if (top + menuRect.height > window.innerHeight - PADDING) {
+        top = window.innerHeight - menuRect.height - PADDING;
       }
 
       node.style.top = `${top}px`;
       node.style.left = `${left}px`;
     } else {
-      width = "100vw";
       node.style.position = "fixed";
-      node.style.width = width;
-
-      node.style.bottom = "0px";
+      node.style.width = "100vw";
       node.style.left = "0px";
-
-      const menuRect = node.getBoundingClientRect();
-      top = window.innerHeight - menuRect.height;
-
-      node.style.top = `${top}px`;
+      node.style.bottom = "0px";
+      node.style.top = "auto";
     }
 
     node.style.visibility = "visible";
@@ -83,10 +68,13 @@ export const positionPopover = (node: HTMLElement) => {
   node.addEventListener("toggle", handler);
   mediaQuery.addEventListener("change", handler);
 
+  window.addEventListener("resize", handler);
+
   return {
     destroy() {
       node.removeEventListener("toggle", handler);
       mediaQuery.removeEventListener("change", handler);
+      window.removeEventListener("resize", handler);
     }
   };
 };

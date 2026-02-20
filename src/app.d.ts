@@ -7,6 +7,7 @@ declare global {
         given_name?: string;
         family_name?: string;
         email?: string;
+        is_demo?: boolean;
         roles: string[];
       } | null;
     }

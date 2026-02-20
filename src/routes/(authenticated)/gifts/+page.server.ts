@@ -12,6 +12,7 @@ import { gifts } from "$lib/server/db/schema";
 import { eq, and, isNull, isNotNull, count, asc } from "drizzle-orm";
 import z from "zod";
 import { GIFT_ID_SCHEMA } from "$lib/entities/Gift/constants";
+import { env } from "$env/dynamic/public";
 
 export const load = async ({ url, locals, depends }) => {
   depends("gifts:status");
@@ -102,6 +103,11 @@ export const actions = {
     const { releasedAt, giftId, recipient, title, fileId } = result.data;
     const releasedAtDate = new Date(releasedAt);
 
+    const tomorrowAtMidnight = new Date(new Date().setHours(24, 0, 0, 0));
+
+    const isDemo = locals.user.is_demo ?? false;
+    const expiresAt = isDemo ? tomorrowAtMidnight : null;
+
     const values = {
       giftId,
       ownerUserId: locals.user.id,
@@ -109,7 +115,8 @@ export const actions = {
       recipient,
       title,
       fileId,
-      releasedAt: releasedAtDate
+      releasedAt: releasedAtDate,
+      expiresAt
     };
 
     try {
@@ -120,8 +127,27 @@ export const actions = {
         .limit(1);
 
       const existingGift = existingGifts.at(0);
+      const isNewGift = isNil(existingGift);
 
-      if (isNil(existingGift)) {
+      if (isNewGift) {
+        const giftCountResult = await db
+          .select({ value: count() })
+          .from(gifts)
+          .where(eq(gifts.ownerUserId, locals.user.id));
+
+        const currentCount = giftCountResult[0]?.value ?? 0;
+
+        const limitEnv = isDemo
+          ? Number(env.PUBLIC_DEMO_GIFT_LIMIT)
+          : Number(env.PUBLIC_GIFT_LIMIT);
+        const limit = Number.isFinite(limitEnv) ? limitEnv : 15;
+
+        if (currentCount >= limit) {
+          return fail(422, {
+            message: `Limit of gifts exceeded (${currentCount}/${limit})`
+          });
+        }
+
         await db.insert(gifts).values(values);
       } else {
         await db
@@ -129,6 +155,7 @@ export const actions = {
           .set(values)
           .where(and(eq(gifts.giftId, giftId), eq(gifts.ownerUserId, locals.user.id)));
       }
+
       return { success: true };
     } catch (error) {
       console.error(error);

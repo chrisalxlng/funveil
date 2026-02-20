@@ -1,7 +1,7 @@
 {
   "name": "funveil",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
@@ -45,8 +45,9 @@
       "pnpm run check"
     ]
   },
-  "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a",
+  "packageManager": "pnpm@10.30.0+sha512.2b5753de015d480eeb88f5b5b61e0051f05b4301808a82ec8b840c9d2adf7748eb352c83f5c1593ca703ff1017295bc3fdd3119abb9686efc96b9fcb18200937",
   "dependencies": {
+    "@lottiefiles/dotlottie-svelte": "^0.8.15",
     "@tailwindcss/vite": "^4.1.17",
     "canvas-confetti": "^1.9.4",
     "classnames": "^2.5.1",
@@ -54,6 +55,7 @@
     "drizzle-orm": "^0.45.1",
     "jsonwebtoken": "^9.0.3",
     "lodash-es": "^4.17.21",
+    "node-cron": "^4.2.1",
     "picocolors": "^1.1.1",
     "postgres": "^3.4.8",
     "qrcode": "^1.5.4",

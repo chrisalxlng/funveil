@@ -18,8 +18,6 @@
   let { id, title, content, actions, data, class: className, onclose }: Props = $props();
 
   const close = () => {
-    const modal = document.getElementById(id) as HTMLDialogElement | null;
-    modal?.close();
     onclose?.();
   };
 

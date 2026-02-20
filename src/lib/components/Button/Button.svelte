@@ -36,7 +36,7 @@
     "aria-label": label,
     class: classNames(className, "transition select-none", {
       "hover:brightness-97 active:brightness-95": type == "color",
-      "hover:scale-105 active:scale-95": type == "scale",
+      "hover:scale-102 active:scale-98": type == "scale",
       "bg-transparent opacity-70 cursor-not-allowed": disabled,
       "cursor-pointer": !disabled
     })

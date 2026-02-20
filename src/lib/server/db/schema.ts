@@ -9,5 +9,6 @@ export const gifts = pgTable("gifts", {
   fileId: text("file_id").notNull(),
   releasedAt: timestamp("released_at", { withTimezone: true }).notNull(),
   openedAt: timestamp("opened_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true })
 });

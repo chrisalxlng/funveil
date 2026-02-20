@@ -52,10 +52,12 @@
   --color-primary: #ff2f92;
   --color-success: #22c55e;
   --color-danger: #ef4444;
+  --color-info: #bae6fd;
   --color-typography-attention: #000000;
   --color-typography-subtle: #838383;
   --color-typography-on-contrast: #ffffff;
   --color-typography-on-primary: #ffffff;
+  --color-typography-on-info: #0c4a6e;
   --color-typography-danger: #de0000;
 
   --radius-*: initial;

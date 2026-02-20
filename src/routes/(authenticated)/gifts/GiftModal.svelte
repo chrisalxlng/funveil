@@ -27,9 +27,12 @@
   import { m } from "$lib/paraglide/messages";
   import { MAX_FILE_SIZE } from "$lib/constants";
 
+  type ErrorCode = "FILE_SIZE_EXCEEDED" | "FILE_LIMIT_EXCEEDED";
+
   type Props = {
     data: Gift.FormValues | undefined;
     onsubmit?: () => void;
+    onclose: () => void;
   };
   let props: Props = $props();
 
@@ -68,6 +71,7 @@
     if (isNil(fileUrl) || !fileUrl.startsWith("blob:")) return;
 
     URL.revokeObjectURL(fileUrl);
+    props.onclose();
   };
 
   const handleEnhance: SubmitFunction = async ({ formData, cancel }) => {
@@ -112,11 +116,23 @@
             body: fileUploadFormData
           }
         );
-        if (!fileStorageResponse.ok) throw new Error("Could not upload file");
+        if (!fileStorageResponse.ok) {
+          const parsedResponse = await fileStorageResponse.json();
+          throw parsedResponse;
+        }
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const { code } = (error as { code: ErrorCode } | undefined) ?? {};
+
+      if (code === "FILE_SIZE_EXCEEDED") {
+        notification.show(m.notification_gift_file_size_exceeded(), "error");
+      } else if (code === "FILE_LIMIT_EXCEEDED") {
+        notification.show(m.notification_gift_file_limit_exceeded(), "error");
+      } else {
+        notification.show(m.notification_gift_not_saved(), "error");
+      }
+
       console.error(error);
-      notification.show(m.notification_gift_not_saved(), "error");
       cancel();
       return;
     }
@@ -124,10 +140,21 @@
     return async ({ result }) => {
       if (result.type === "success") {
         await invalidateAll();
+        props.onsubmit?.();
+        handleClose?.();
+        notification.show(m.notification_gift_wrapped(), "success");
+        return;
       }
+
       await applyAction(result);
-      props.onsubmit?.();
-      handleClose?.();
+
+      if (result.type === "failure") {
+        if (result.status === 422) {
+          notification.show(m.notification_gift_file_limit_exceeded(), "error");
+        } else {
+          notification.show(m.error_default_title(), "error");
+        }
+      }
     };
   };
 

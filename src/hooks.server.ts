@@ -4,8 +4,33 @@ import { env } from "$env/dynamic/private";
 import { env as publicEnv } from "$env/dynamic/public";
 import { paraglideMiddleware } from "$lib/paraglide/server";
 import { runMigrations } from "$lib/server/db";
+import nodeCron from "node-cron";
+import { db } from "$lib/server/db";
+import { gifts } from "$lib/server/db/schema";
+import { lte } from "drizzle-orm";
+import { isEmpty } from "lodash-es";
+import { log } from "$lib/server/utils";
 
 let migrationsStarted = false;
+
+nodeCron.schedule("0 3 * * *", async () => {
+  log("CLEANUP", "Checking for expired gifts...", "info");
+
+  const deletedGifts = await db
+    .delete(gifts)
+    .where(lte(gifts.expiresAt, new Date()))
+    .returning({ id: gifts.giftId, expiredAt: gifts.expiresAt });
+
+  deletedGifts.forEach((gift) =>
+    log("CLEANUP", `Deleted gift with id ${gift.id} which expired at ${gift.expiredAt}!`, "success")
+  );
+
+  if (!isEmpty(deletedGifts)) {
+    log("CLEANUP", `Finished cleanup of expired gifts (${deletedGifts.length})!`, "success");
+  } else {
+    log("CLEANUP", "No gifts to delete!", "success");
+  }
+});
 
 (async () => {
   if (migrationsStarted) return;
@@ -46,8 +71,8 @@ const authHandle: Handle = async ({ event, resolve }) => {
           body: new URLSearchParams({
             grant_type: "refresh_token",
             refresh_token: refreshToken,
-            client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID,
-            client_secret: keycloakSecret
+            client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID!,
+            client_secret: keycloakSecret!
           })
         });
 
@@ -93,6 +118,7 @@ const authHandle: Handle = async ({ event, resolve }) => {
         given_name: payload.given_name,
         family_name: payload.family_name,
         email: payload.email,
+        is_demo: payload.is_demo,
         roles: payload.realm_access?.roles || []
       };
     } catch (error) {

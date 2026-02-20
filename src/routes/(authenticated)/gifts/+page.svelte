@@ -243,7 +243,6 @@
 
   const handleModalSubmit = () => {
     giftModal.close();
-    notification.show(m.notification_gift_wrapped(), "success");
   };
 
   const handleCountdownFinish = () => {
@@ -349,7 +348,7 @@
   </List>
 </div>
 <FloatingActionButton Icon={IconAdd} label={m.action_add_gift()} action={handleAdd} />
-<GiftModal data={giftModal.data} onsubmit={handleModalSubmit} />
+<GiftModal data={giftModal.data} onsubmit={handleModalSubmit} onclose={giftModal.close} />
 <ConfirmModal
   id={DELETE_GIFT_CONFIRM_MODAL_ID}
   Icon={IconDelete}

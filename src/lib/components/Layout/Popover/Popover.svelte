@@ -18,7 +18,10 @@
   this={element}
   popover="auto"
   {id}
-  class={classNames(className, "border-accent border-2 p-3 desktop:p-1 invisible shadow-elevated")}
+  class={classNames(
+    className,
+    "border-accent border-2 p-3 desktop:p-1 invisible shadow-elevated rounded-t-default desktop:rounded-default"
+  )}
   use:positionPopover
 >
   {@render children()}

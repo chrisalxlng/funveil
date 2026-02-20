@@ -19,8 +19,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
         grant_type: "authorization_code",
         code,
         redirect_uri: callbackUrl,
-        client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID,
-        client_secret: keycloakSecret
+        client_id: publicEnv.PUBLIC_KEYCLOAK_CLIENT_ID!,
+        client_secret: keycloakSecret!
       })
     }
   );
